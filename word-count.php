@@ -20,6 +20,6 @@ Domain Path: /languages/
 
 function wordcount_load_textdomain()
 {
-    load_plugin_textdomain('word-count');
+    load_plugin_textdomain('word-count', false, dirname(__FILE__) . '/languages');
 }
 add_action('plugins_loaded', 'wordcount_load_textdomain');
