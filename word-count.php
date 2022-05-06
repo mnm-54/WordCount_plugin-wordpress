@@ -24,21 +24,44 @@ function wordcount_load_textdomain()
 }
 add_action('plugins_loaded', 'wordcount_load_textdomain');
 
-function wordcount_count_word($content)
+function wordcount_functionality($content)
 {
     if (is_home()) {
         return $content;
     }
+    // count words and time
+    $word_n = wordcount_count_word($content);
+    $time = wordcount_time($word_n);
+
+    $labelw = __('Total number of words', 'word-count');
+    $labelt = __('Average reading time', 'word-count');
+
+    // for word count
+    $labelw = apply_filters('wordcount_label', $labelw);
+    $wordcount_visibility = apply_filters('wordcount_display_wordcount', 1);
+    // for reading time
+    $labelt = apply_filters('wordcount_label_time', $labelt);
+    $wordcount_time_visibility = apply_filters('wordcount_display_time', 1);
+
+    $tag = apply_filters('wordcount_tag', 'h4');
+    if ($wordcount_visibility) {
+        $content .= sprintf("<%s>%s: %s</%s>", $tag, $labelw, $word_n, $tag);
+    }
+    if ($wordcount_time_visibility) {
+        $content .= sprintf("<%s>%s: %s minutes</%s>", $tag, $labelt, $time, $tag);
+    }
+    return $content;
+}
+function wordcount_count_word($content)
+{
     // first remove all html tags
     $stripped_content = strip_tags($content);
     // count words
     $word_n = str_word_count($stripped_content);
-    $label = __('Total number of words', 'word-count');
-
-    $label = apply_filters('wordcount_label', $label);
-    $tag = apply_filters('wordcount_tag', 'h4');
-
-    $content .= sprintf("<%s>%s: %s</%s>", $tag, $label, $word_n, $tag);
-    return $content;
+    return $word_n;
 }
-add_filter('the_content', 'wordcount_count_word');
+function wordcount_time($wn)
+{
+    return ceil($wn / 200);
+}
+add_filter('the_content', 'wordcount_functionality');
