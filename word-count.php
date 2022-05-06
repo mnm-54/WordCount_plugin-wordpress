@@ -10,3 +10,16 @@ License: GPLv2 or later
 Text Domain: word-count
 Domain Path: /languages/
 */
+
+// activation ans deactivation hook
+// function wordcount_activation_hook(){}
+// register_activation_hook(__FILE__, 'wordcount_activation_hook');
+
+// function wordcount_deactivation_hook(){}
+// register_deactivation_hook(__FILE__, 'wordcount_deactivation_hook');
+
+function wordcount_load_textdomain()
+{
+    load_plugin_textdomain('word-count');
+}
+add_action('plugins_loaded', 'wordcount_load_textdomain');
