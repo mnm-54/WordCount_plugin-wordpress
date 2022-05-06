@@ -23,3 +23,15 @@ function wordcount_load_textdomain()
     load_plugin_textdomain('word-count', false, dirname(__FILE__) . '/languages');
 }
 add_action('plugins_loaded', 'wordcount_load_textdomain');
+
+function wordcount_count_word($content)
+{
+    // first remove all html tags
+    $stripped_content = strip_tags($content);
+    // count words
+    $word_n = str_word_count($stripped_content);
+    $label = __('Total number of words', 'word-count');
+    $content .= sprintf("<h4>%s: %s</h4>", $label, $word_n);
+    return $content;
+}
+add_filter('the_content', 'wordcount_count_word');
