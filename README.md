@@ -24,7 +24,7 @@ Your machine needs to have wordpress installed
 - Clone the repo from github or download zip
 
 ```
-Give the example
+git clone https://github.com/mnm-54/WordCount_plugin-wordpress.git
 ```
 
 And activate the plugin from admin dashboard.
