@@ -26,12 +26,19 @@ add_action('plugins_loaded', 'wordcount_load_textdomain');
 
 function wordcount_count_word($content)
 {
+    if (is_home()) {
+        return $content;
+    }
     // first remove all html tags
     $stripped_content = strip_tags($content);
     // count words
     $word_n = str_word_count($stripped_content);
     $label = __('Total number of words', 'word-count');
-    $content .= sprintf("<h4>%s: %s</h4>", $label, $word_n);
+
+    $label = apply_filters('wordcount_label', $label);
+    $tag = apply_filters('wordcount_tag', 'h4');
+
+    $content .= sprintf("<%s>%s: %s</%s>", $tag, $label, $word_n, $tag);
     return $content;
 }
 add_filter('the_content', 'wordcount_count_word');
