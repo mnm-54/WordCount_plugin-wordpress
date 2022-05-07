@@ -1,3 +1,5 @@
+[![Status](https://img.shields.io/badge/status-active-success.svg)]()
+
 # Project Title: Word Count wordpress plugin
 
 ## Table of Contents
